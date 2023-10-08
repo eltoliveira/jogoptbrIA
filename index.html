@@ -24,21 +24,67 @@
         }
 
         /* Adicione outros estilos personalizados conforme necessário */
+
+        /* Oculta os componentes do jogo no início */
+        .game-components {
+            display: none;
+        }
     </style>
 </head>
 <body>
     <div class="container text-center">
-        <h1 id="phrase">Frase aparecerá aqui</h1>
-        <div class="mt-4">
-            <span class="mr-2">Pontuação: <span id="score">0</span></span>
-            <span>Vidas: <span id="lives">3</span></span>
+        <div id="initial-screen">
+            <!-- Botão para iniciar o jogo -->
+            <button class="btn btn-primary" onclick="startGame()">Iniciar Jogo</button>
         </div>
-        <div class="mt-4">
-            <button class="btn btn-success mr-4" onclick="evaluatePhrase(true)">Certo</button>
-            <button class="btn btn-danger" onclick="evaluatePhrase(false)">Errado</button>
+
+        <div id="game-screen" class="game-components">
+            <h1 id="phrase">Frase aparecerá aqui</h1>
+            <div class="mt-4">
+                <span class="mr-2">Pontuação: <span id="score">0</span></span>
+                <span>Vidas: <span id="lives">3</span></span>
+            </div>
+            <div class="mt-4">
+                <button class="btn btn-success mr-4" onclick="evaluatePhrase(true)">Certo</button>
+                <button class="btn btn-danger" onclick="evaluatePhrase(false)">Errado</button>
+            </div>
         </div>
     </div>
-    <!-- Link para o seu arquivo JavaScript -->
-    <script src="script.js"></script>
+
+    <script>
+        function startGame() {
+            const apiKey = localStorage.getItem("OPENAPIKEY");
+            if (!apiKey) {
+                const apiKeyInput = prompt("Insira a chave da API da OpenAI:");
+                if (apiKeyInput && apiKeyInput.trim() !== "") {
+                    localStorage.setItem("OPENAPIKEY", apiKeyInput);
+                    showGameScreen();
+                    generateNewPhrase(apiKeyInput); // Chama a função para gerar a primeira frase
+                } else {
+                    alert("Por favor, forneça uma chave da API válida.");
+                }
+            } else {
+                showGameScreen();
+                generateNewPhrase(apiKey); // Chama a função para gerar a primeira frase
+            }
+        }
+
+        function showGameScreen() {
+            document.getElementById("initial-screen").style.display = "none";
+            document.getElementById("game-screen").style.display = "block";
+        }
+
+        function generateNewPhrase(apiKey) {
+            // Implemente aqui a lógica para chamar a API da OpenAI e obter uma nova frase
+            // Atualize o texto da frase na tela com a nova frase gerada
+        }
+
+        function evaluatePhrase(isCorrect) {
+            // Implemente a lógica para avaliar a frase
+            // Atualize as variáveis 'score' e 'lives' com base na avaliação
+            // Lembre-se de controlar o número de vidas e atualizar a exibição na página
+            // Em seguida, chame generateNewPhrase(apiKey) para obter uma nova frase
+        }
+    </script>
 </body>
 </html>
